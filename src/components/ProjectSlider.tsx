@@ -243,13 +243,13 @@ const ProjectSlider = () => {
                     <div className="absolute inset-0 bg-grid-lines opacity-30"></div>
                     
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <div className="w-24 h-24 relative mb-5">
+                      <div className="w-32 h-32 relative mb-6">
                         {/* Add glow effect around lock */}
-                        <div className="absolute inset-0 rounded-full bg-neon-cyan/10 blur-md animate-pulse"></div>
-                        <div className="absolute inset-0 rounded-full bg-space-dark border-2 border-neon-cyan/50 flex items-center justify-center shadow-[0_0_15px_rgba(0,245,255,0.3)]">
+                        <div className="absolute inset-0 rounded-full bg-neon-cyan/20 blur-md animate-pulse"></div>
+                        <div className="absolute inset-0 rounded-full bg-space-dark border-2 border-neon-cyan/50 flex items-center justify-center shadow-[0_0_20px_rgba(0,245,255,0.4)]">
                           <motion.div
                             animate={{ 
-                              scale: [1, 1.08, 1],
+                              scale: [1, 1.1, 1],
                               opacity: [0.8, 1, 0.8]
                             }}
                             transition={{ 
@@ -273,7 +273,7 @@ const ProjectSlider = () => {
                                 ></div>
                               ))}
                             </div>
-                            <svg className="w-12 h-12 text-neon-cyan relative z-10" fill="none" viewBox="0 0 24 24">
+                            <svg className="w-16 h-16 text-neon-cyan relative z-10" fill="none" viewBox="0 0 24 24">
                               <path 
                                 strokeLinecap="round" 
                                 strokeLinejoin="round" 
@@ -283,7 +283,7 @@ const ProjectSlider = () => {
                               />
                               {/* Add fill for more visibility */}
                               <path 
-                                fill="rgba(0,245,255,0.2)" 
+                                fill="rgba(0,245,255,0.3)" 
                                 d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" 
                               />
                             </svg>
@@ -322,6 +322,30 @@ const ProjectSlider = () => {
                   </span>
                 </div>
                 
+                {project.status === 'locked' && (
+                  <div className="absolute inset-0 flex items-center justify-center z-20 bg-space-dark/20 pointer-events-none">
+                    <div className="w-24 h-24 relative">
+                      <div className="absolute inset-0 rounded-full bg-neon-cyan/20 blur-md animate-pulse"></div>
+                      <div className="absolute inset-0 rounded-full bg-space-dark border-2 border-neon-cyan/50 flex items-center justify-center shadow-[0_0_15px_rgba(0,245,255,0.4)]">
+                        <svg className="w-12 h-12 text-neon-cyan" viewBox="0 0 24 24" fill="none">
+                          <path 
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" 
+                            stroke="currentColor" 
+                            strokeWidth={2} 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                          />
+                          <path 
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                            fill="rgba(0,245,255,0.3)"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="absolute top-4 right-4 text-neon-cyan font-bold text-lg border border-neon-cyan/30 bg-space-dark/80 rounded-full px-3 py-1">LOCKED</div>
+                  </div>
+                )}
+                
                 <p className="text-text-secondary mb-5">{project.description}</p>
                 
                 <div className="flex flex-wrap gap-2 mb-5">
@@ -330,7 +354,6 @@ const ProjectSlider = () => {
                       key={tagIndex} 
                       className="px-3 py-1 rounded-full text-xs backdrop-blur-sm bg-space-dark/60 text-white border border-glass-stroke hover:border-neon-cyan/30 transition-all duration-300 hover:text-neon-cyan"
                     >
-                      <span className="text-neon-cyan">#</span>
                       <span>{tag.replace('#', '')}</span>
                     </div>
                   ))}

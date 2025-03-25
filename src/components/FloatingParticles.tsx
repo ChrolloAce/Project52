@@ -7,8 +7,11 @@ const FloatingParticles = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const [particles, setParticles] = useState<any[]>([])
+  const [isClient, setIsClient] = useState(false)
   
   useEffect(() => {
+    setIsClient(true)
+    
     if (typeof window === 'undefined') return
     
     const updateDimensions = () => {
@@ -161,33 +164,40 @@ const FloatingParticles = () => {
         />
       </div>
       
-      {/* Digital rain effect */}
-      <div className="absolute inset-0 overflow-hidden opacity-10">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <motion.div
-            key={`rain-${i}`}
-            className="absolute top-0 text-neon-cyan font-mono text-xs"
-            style={{ 
-              left: `${(i + 1) * 5}%`,
-              writingMode: 'vertical-rl'
-            }}
-            initial={{ y: -500 }}
-            animate={{ y: '110vh' }}
-            transition={{
-              duration: 10 + Math.random() * 20,
-              ease: "linear",
-              repeat: Infinity,
-              delay: i * 0.5
-            }}
-          >
-            {Array.from({ length: 20 }).map((_, j) => (
-              <span key={j} style={{ opacity: Math.random() * 0.5 + 0.5 }}>
-                {Math.random() > 0.5 ? '1' : '0'}
-              </span>
-            ))}
-          </motion.div>
-        ))}
-      </div>
+      {/* Digital rain effect - Only render on client-side */}
+      {isClient && (
+        <div className="absolute inset-0 overflow-hidden opacity-10">
+          {Array.from({ length: 20 }).map((_, i) => (
+            <motion.div
+              key={`rain-${i}`}
+              className="absolute top-0 text-neon-cyan font-mono text-xs"
+              style={{ 
+                left: `${(i + 1) * 5}%`,
+                writingMode: 'vertical-rl'
+              }}
+              initial={{ y: -500 }}
+              animate={{ y: '110vh' }}
+              transition={{
+                duration: 10 + Math.random() * 20,
+                ease: "linear",
+                repeat: Infinity,
+                delay: i * 0.5
+              }}
+            >
+              {/* Use a deterministic pattern during server-side rendering */}
+              {Array.from({ length: 20 }).map((_, j) => {
+                // Create a pseudo-random but deterministic pattern based on indices
+                const value = (i + j) % 2 === 0 ? '1' : '0';
+                return (
+                  <span key={j} style={{ opacity: 0.5 + (((i * j) % 10) / 20) }}>
+                    {value}
+                  </span>
+                );
+              })}
+            </motion.div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
