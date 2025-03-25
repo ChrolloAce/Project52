@@ -92,9 +92,9 @@ const Header = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <nav className="flex items-center gap-6">
-            <a href="#" className="text-white hover:text-neon-cyan transition-colors">Features</a>
-            <a href="#" className="text-white hover:text-neon-cyan transition-colors">Pricing</a>
-            <a href="#" className="text-white hover:text-neon-cyan transition-colors">FAQ</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo(0, 0); }} className="text-white hover:text-neon-cyan transition-colors">Home</a>
+            <a href="#projects" className="text-white hover:text-neon-cyan transition-colors">Projects</a>
+            <a href="#rules" className="text-white hover:text-neon-cyan transition-colors">Rules</a>
           </nav>
         </motion.div>
         
@@ -127,9 +127,9 @@ const Header = () => {
             <div className="flex-1 flex flex-col justify-center">
               <div className="container mx-auto px-6">
                 <nav className="flex flex-col space-y-6 text-center">
-                  <a href="#" className="text-2xl text-white hover:text-neon-cyan transition-colors py-3">Features</a>
-                  <a href="#" className="text-2xl text-white hover:text-neon-cyan transition-colors py-3">Pricing</a>
-                  <a href="#" className="text-2xl text-white hover:text-neon-cyan transition-colors py-3">FAQ</a>
+                  <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo(0, 0); setIsMenuOpen(false); }} className="text-2xl text-white hover:text-neon-cyan transition-colors py-3">Home</a>
+                  <a href="#projects" onClick={() => setIsMenuOpen(false)} className="text-2xl text-white hover:text-neon-cyan transition-colors py-3">Projects</a>
+                  <a href="#rules" onClick={() => setIsMenuOpen(false)} className="text-2xl text-white hover:text-neon-cyan transition-colors py-3">Rules</a>
                 </nav>
               </div>
             </div>

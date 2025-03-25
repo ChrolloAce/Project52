@@ -34,11 +34,22 @@ const RotatingElement = () => {
           transform: 'perspective(1000px)'
         }}
       >
-        {/* The center of the 3D object - number 52 */}
+        {/* Front side - number 52 */}
         <motion.div
           className="absolute inset-0 flex items-center justify-center"
           style={{
             transform: 'translateZ(0px)',
+            backfaceVisibility: 'hidden'
+          }}
+        >
+          <div className="text-4xl font-bold text-neon-cyan">52</div>
+        </motion.div>
+        
+        {/* Back side - also number 52 */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          style={{
+            transform: 'translateZ(0px) rotateY(180deg)',
             backfaceVisibility: 'hidden'
           }}
         >
@@ -76,32 +87,6 @@ const RotatingElement = () => {
         
         {/* Outer glow */}
         <div className="absolute inset-0 rounded-full bg-neon-cyan/5 filter blur-xl"></div>
-        
-        {/* Week counter orbs */}
-        {Array.from({ length: 5 }).map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-3 h-3 rounded-full bg-neon-cyan"
-            style={{
-              left: '50%',
-              top: '50%',
-              marginLeft: '-6px',
-              marginTop: '-6px',
-              transformStyle: 'preserve-3d',
-              transform: `rotateY(${i * 72}deg) translateZ(50px)`,
-            }}
-            animate={{
-              opacity: [0.3, 1, 0.3],
-              scale: [0.8, 1.2, 0.8],
-            }}
-            transition={{
-              duration: 3,
-              ease: "easeInOut",
-              repeat: Infinity,
-              delay: i * 0.6,
-            }}
-          />
-        ))}
         
         {/* Pulsing light */}
         <motion.div

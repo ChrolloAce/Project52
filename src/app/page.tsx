@@ -77,8 +77,8 @@ export default function Home() {
                 </div>
               </div>
               
-              <div className="w-full h-3 bg-space-blue/50 rounded-full overflow-hidden mb-3 backdrop-blur-md">
-                <div className="h-full bg-neon-cyan w-[0%]"></div>
+              <div className="w-full h-3 bg-space-blue/50 rounded-full overflow-hidden mb-3 backdrop-blur-md border border-glass-stroke/30">
+                <div className="h-full bg-neon-cyan min-w-[2px] w-[0%]"></div>
               </div>
               
               <div className="flex justify-between text-sm">
@@ -92,15 +92,15 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex justify-center"
+              className="flex justify-center w-full"
             >
               <a 
                 href="https://www.youtube.com/@ErnestoLopez.TheBigScale" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center bg-[#FF0000] hover:bg-[#FF0000]/90 text-white text-lg font-bold py-4 px-8 rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,0,0,0.6)] hover:scale-105"
+                className="flex items-center bg-[#FF0000] hover:bg-[#FF0000]/90 text-white text-lg font-bold py-4 px-8 rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,0,0,0.6)] hover:scale-105 whitespace-nowrap"
               >
-                <svg className="w-8 h-8 mr-3" viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-8 h-8 mr-3 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
                 </svg>
                 <span>Watch My Journey on YouTube</span>
@@ -112,6 +112,7 @@ export default function Home() {
           
           {/* Challenge Rules Section */}
           <motion.div
+            id="rules"
             className="my-24 py-16 px-6 sm:px-12 rounded-2xl bg-glass-gray backdrop-blur-md border border-glass-stroke relative overflow-hidden"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -136,36 +137,50 @@ export default function Home() {
                     title: "Solve Real Problems",
                     description: "Each startup must address a genuine problem to be considered valid.",
                     icon: (
-                      <svg className="w-10 h-10 text-neon-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                      </svg>
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-neon-cyan/20 rounded-lg animate-pulse"></div>
+                        <svg className="w-10 h-10 text-neon-cyan relative z-10" viewBox="0 0 24 24">
+                          <path fill="currentColor" d="M10.5,2H13.5C14.33,2 15,2.67 15,3.5V4H17.5C18.33,4 19,4.67 19,5.5V8H21.5C22.33,8 23,8.67 23,9.5V12.5C23,13.33 22.33,14 21.5,14H19V16.5C19,17.33 18.33,18 17.5,18H15V20.5C15,21.33 14.33,22 13.5,22H10.5C9.67,22 9,21.33 9,20.5V18H6.5C5.67,18 5,17.33 5,16.5V14H2.5C1.67,14 1,13.33 1,12.5V9.5C1,8.67 1.67,8 2.5,8H5V5.5C5,4.67 5.67,4 6.5,4H9V3.5C9,2.67 9.67,2 10.5,2M12,6A1,1 0 0,0 11,7A1,1 0 0,0 12,8A1,1 0 0,0 13,7A1,1 0 0,0 12,6M7,9A1,1 0 0,0 6,10A1,1 0 0,0 7,11A1,1 0 0,0 8,10A1,1 0 0,0 7,9M17,9A1,1 0 0,0 16,10A1,1 0 0,0 17,11A1,1 0 0,0 18,10A1,1 0 0,0 17,9M12,12A1,1 0 0,0 11,13A1,1 0 0,0 12,14A1,1 0 0,0 13,13A1,1 0 0,0 12,12M7,15A1,1 0 0,0 6,16A1,1 0 0,0 7,17A1,1 0 0,0 8,16A1,1 0 0,0 7,15M17,15A1,1 0 0,0 16,16A1,1 0 0,0 17,17A1,1 0 0,0 18,16A1,1 0 0,0 17,15Z" />
+                        </svg>
+                      </div>
                     )
                   },
                   {
                     title: "Weekly Releases",
                     description: "Each project must be released on its corresponding week. Edits allowed later.",
                     icon: (
-                      <svg className="w-10 h-10 text-neon-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-neon-purple/20 rounded-lg animate-pulse"></div>
+                        <svg className="w-10 h-10 text-neon-purple relative z-10" viewBox="0 0 24 24">
+                          <path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12S17.5 2 12 2M12.5 13H11V7H12.5V13M12.5 17H11V15H12.5V17Z" />
+                          <path fill="currentColor" d="M15,16.27V19.27L19.5,16.5L15,13.73V16.27Z" className="text-cyber-yellow" />
+                        </svg>
+                      </div>
                     )
                   },
                   {
                     title: "Document Everything",
                     description: "Process, challenges, and learnings must be thoroughly documented for each project.",
                     icon: (
-                      <svg className="w-10 h-10 text-neon-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-neon-pink/20 rounded-lg animate-pulse"></div>
+                        <svg className="w-10 h-10 text-neon-pink relative z-10" viewBox="0 0 24 24">
+                          <path fill="currentColor" d="M20,11H4V8H20M20,15H13V13H20M20,19H13V17H20M11,19H4V13H11M20.33,4.67L18.67,3L17,4.67L15.33,3L13.67,4.67L12,3L10.33,4.67L8.67,3L7,4.67L5.33,3L3.67,4.67L2,3V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V3L20.33,4.67Z" />
+                        </svg>
+                      </div>
                     )
                   },
                   {
                     title: "No Excuses",
                     description: "The schedule must be maintained regardless of complexity or external factors.",
                     icon: (
-                      <svg className="w-10 h-10 text-cyber-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-cyber-yellow/20 rounded-lg animate-pulse"></div>
+                        <svg className="w-10 h-10 text-cyber-yellow relative z-10" viewBox="0 0 24 24">
+                          <path fill="currentColor" d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                          <path fill="currentColor" d="M12.5,7L15,9.5L17.5,7L12.5,2L7.5,7L10,9.5L12.5,7Z" className="text-neon-cyan" transform="translate(0, 0.5)" />
+                        </svg>
+                      </div>
                     )
                   }
                 ].map((rule, index) => (
@@ -176,7 +191,8 @@ export default function Home() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 + (index * 0.1) }}
                   >
-                    <div className="mr-4 p-3 bg-glass-gray rounded-lg border border-glass-stroke">
+                    <div className="mr-4 p-3 bg-glass-gray rounded-lg border border-glass-stroke relative overflow-hidden">
+                      <div className="absolute inset-0 bg-grid-lines opacity-30"></div>
                       {rule.icon}
                     </div>
                     <div>

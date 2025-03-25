@@ -1,0 +1,18 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#070324"/>
+  
+  <!-- Outer rings -->
+  <circle cx="256" cy="256" r="225" stroke="#00F5FF" stroke-width="2" stroke-opacity="0.3"/>
+  <circle cx="256" cy="256" r="200" stroke="#7000FF" stroke-width="2" stroke-opacity="0.4"/>
+  
+  <!-- The number "52" -->
+  <text x="256" y="300" font-family="Arial, sans-serif" font-size="180" font-weight="bold" fill="#00F5FF" text-anchor="middle">52</text>
+  
+  <!-- Small particles -->
+  <circle cx="150" cy="100" r="5" fill="#00F5FF" opacity="0.8"/>
+  <circle cx="400" cy="150" r="3" fill="#7000FF" opacity="0.6"/>
+  <circle cx="100" cy="320" r="4" fill="#0075FF" opacity="0.7"/>
+  <circle cx="350" cy="400" r="6" fill="#00F5FF" opacity="0.5"/>
+  <circle cx="420" cy="320" r="3" fill="#7000FF" opacity="0.8"/>
+</svg> 

@@ -122,7 +122,7 @@ const ProjectSlider = () => {
   const progress = (activeIndex / (projects.length - 1)) * 100
 
   return (
-    <div className="w-full my-10 overflow-x-hidden">
+    <div id="projects" className="w-full my-10 overflow-x-hidden">
       <div className="relative mb-10">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 px-4 md:px-0">
           <div>
@@ -185,12 +185,15 @@ const ProjectSlider = () => {
 
         <div 
           ref={sliderRef}
-          className="flex space-x-6 overflow-x-auto pb-12 pt-4 px-4 md:px-0 masked-overflow scroll-hidden"
+          className="flex space-x-6 overflow-x-auto pb-12 pt-4 px-4 md:px-8 masked-overflow scroll-hidden"
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
           onMouseMove={handleMouseMove}
         >
+          {/* Ensure the first project is visible by adding a small spacer div at the beginning */}
+          <div className="flex-shrink-0 w-2 md:w-0"></div>
+          
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
@@ -240,14 +243,49 @@ const ProjectSlider = () => {
                     <div className="absolute inset-0 bg-grid-lines opacity-30"></div>
                     
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <div className="w-20 h-20 relative mb-5 neon-glow">
-                        <div className="absolute inset-0 rounded-full bg-space-dark border border-glass-stroke flex items-center justify-center">
+                      <div className="w-24 h-24 relative mb-5">
+                        {/* Add glow effect around lock */}
+                        <div className="absolute inset-0 rounded-full bg-neon-cyan/10 blur-md animate-pulse"></div>
+                        <div className="absolute inset-0 rounded-full bg-space-dark border-2 border-neon-cyan/50 flex items-center justify-center shadow-[0_0_15px_rgba(0,245,255,0.3)]">
                           <motion.div
-                            animate={{ scale: [1, 1.05, 1], opacity: [0.7, 1, 0.7] }}
-                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                            animate={{ 
+                              scale: [1, 1.08, 1],
+                              opacity: [0.8, 1, 0.8]
+                            }}
+                            transition={{ 
+                              duration: 3,
+                              repeat: Infinity, 
+                              ease: "easeInOut"
+                            }}
+                            className="relative"
                           >
-                            <svg className="w-10 h-10 text-neon-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            {/* Data lines for futuristic effect */}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              {Array.from({ length: 8 }).map((_, i) => (
+                                <div 
+                                  key={i} 
+                                  className="absolute w-full h-0.5 bg-neon-cyan/10"
+                                  style={{ 
+                                    transform: `rotate(${i * 45}deg)`,
+                                    width: '100%',
+                                    height: '1px'
+                                  }}
+                                ></div>
+                              ))}
+                            </div>
+                            <svg className="w-12 h-12 text-neon-cyan relative z-10" fill="none" viewBox="0 0 24 24">
+                              <path 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round" 
+                                strokeWidth={1.5}
+                                stroke="currentColor" 
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" 
+                              />
+                              {/* Add fill for more visibility */}
+                              <path 
+                                fill="rgba(0,245,255,0.2)" 
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" 
+                              />
                             </svg>
                           </motion.div>
                         </div>
@@ -338,23 +376,6 @@ const ProjectSlider = () => {
             })}
           </div>
         </div>
-      </div>
-      
-      <div className="flex justify-center">
-        <motion.button
-          className="group relative bg-gradient-to-r from-neon-cyan to-neon-blue text-white text-lg font-bold py-5 px-12 rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,245,255,0.6)] hover:scale-105 overflow-hidden border border-neon-cyan/30"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.97 }}
-        >
-          <span className="absolute inset-0 bg-gradient-to-r from-neon-cyan to-neon-blue opacity-0 group-hover:opacity-30 transition-opacity duration-300"></span>
-          <span className="absolute -inset-px bg-gradient-to-r from-neon-cyan to-neon-blue opacity-30 blur-sm"></span>
-          <span className="relative flex items-center">
-            <span>Start Your Journey</span>
-            <svg className="w-6 h-6 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </span>
-        </motion.button>
       </div>
     </div>
   )

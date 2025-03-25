@@ -5,6 +5,7 @@ import './globals.css'
 import MouseFollower from '@/components/MouseFollower'
 import FloatingParticles from '@/components/FloatingParticles'
 import RotatingElement from '@/components/RotatingElement'
+import { cn } from '@/lib/utils'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space' })
@@ -20,6 +21,9 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
+        <link rel="mask-icon" href="/favicon.svg" color="#070324" />
       </head>
       <body className={`${inter.className} ${spaceGrotesk.variable} min-h-screen overflow-x-hidden`}>
         {/* Mouse following effect */}
