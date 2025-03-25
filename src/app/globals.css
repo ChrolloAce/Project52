@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 3, 0, 20;
+  --background-end-rgb: 7, 3, 36;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--background-start-rgb), 1),
+    rgba(var(--background-end-rgb), 1)
+  );
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+@layer base {
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: rgba(7, 3, 36, 0.5);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 245, 255, 0.3);
+    border-radius: 3px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 245, 255, 0.5);
+  }
+  
+  /* Base styles */
+  body {
+    @apply bg-deep-space text-text-primary antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Better focus styles */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-neon-cyan/50 ring-offset-2 ring-offset-deep-space;
+  }
+}
+
+@layer components {
+  /* Text styles */
+  .text-gradient {
+    @apply text-transparent bg-clip-text bg-text-gradient animate-cosmic-shift;
+  }
+  
+  .text-shimmer {
+    @apply text-transparent bg-clip-text bg-[length:200%_auto] bg-text-gradient animate-text-shimmer;
+  }
+  
+  /* Glass UI elements */
+  .glass-card {
+    @apply bg-glass-gray backdrop-blur-md border border-glass-stroke rounded-xl overflow-hidden;
+  }
+  
+  .glass-button {
+    @apply px-6 py-2.5 rounded-full bg-glass-gray backdrop-blur-md border border-glass-stroke hover:bg-white/10 transition-all duration-300;
+  }
+  
+  /* Main button styles */
+  .cosmic-button {
+    @apply px-6 py-2.5 rounded-full bg-gradient-to-r from-neon-cyan to-neon-blue hover:shadow-[0_0_20px_rgba(0,245,255,0.4)] transform hover:scale-105 transition-all duration-300 text-white font-medium backdrop-blur-sm;
+  }
+  
+  .cosmic-button-outline {
+    @apply px-6 py-2.5 rounded-full border border-neon-cyan/30 text-neon-cyan hover:border-neon-cyan hover:shadow-[0_0_15px_rgba(0,245,255,0.3)] transition-all duration-300 font-medium;
+  }
+  
+  .cosmic-chip {
+    @apply px-4 py-1.5 rounded-full bg-glass-gray border border-glass-stroke text-text-secondary text-sm transition-colors hover:text-text-primary;
+  }
+  
+  /* Glowing effects */
+  .neon-glow {
+    @apply relative;
+  }
+  
+  .neon-glow::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 rounded-[inherit] shadow-[0_0_15px_rgba(0,245,255,0.4)] transition-opacity duration-300 pointer-events-none;
+  }
+  
+  .neon-glow:hover::after {
+    @apply opacity-100;
+  }
+  
+  /* Grid and layout helpers */
+  .grid-container {
+    @apply grid gap-6 sm:gap-8 md:gap-10;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+  
+  .masked-overflow {
+    mask-image: linear-gradient(to right, transparent, black 10px, black 90%, transparent);
+  }
+  
+  /* Hide scrollbars while keeping functionality */
+  .scroll-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .scroll-hidden::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Button enhancements */
+  .btn-large {
+    @apply py-4 px-8 text-base font-medium;
+  }
+  
+  .btn-with-icon {
+    @apply flex items-center justify-center;
+  }
+  
+  .btn-with-icon svg {
+    @apply ml-2 w-5 h-5;
+  }
+  
+  /* Gradient underline effect */
+  .gradient-underline {
+    @apply relative;
+  }
+  
+  .gradient-underline::after {
+    content: '';
+    @apply absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-neon-cyan to-neon-purple scale-x-0 transition-transform duration-300 origin-left;
+  }
+  
+  .gradient-underline:hover::after {
+    @apply scale-x-100;
+  }
+}
+
+/* Animation keyframes */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* For webkit support */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .glass-effect {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+} 

@@ -1,0 +1,71 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="none"/>
+  
+  <!-- Small stars -->
+  <g fill="#FFFFFF" opacity="0.5">
+    <circle cx="30" cy="42" r="0.4"/>
+    <circle cx="74" cy="81" r="0.3"/>
+    <circle cx="126" cy="27" r="0.5"/>
+    <circle cx="190" cy="143" r="0.3"/>
+    <circle cx="235" cy="213" r="0.4"/>
+    <circle cx="321" cy="76" r="0.3"/>
+    <circle cx="342" cy="186" r="0.5"/>
+    <circle cx="274" cy="321" r="0.3"/>
+    <circle cx="51" cy="254" r="0.4"/>
+    <circle cx="162" cy="359" r="0.3"/>
+    <circle cx="301" cy="29" r="0.4"/>
+    <circle cx="376" cy="121" r="0.3"/>
+    <circle cx="89" cy="373" r="0.5"/>
+    <circle cx="153" cy="289" r="0.3"/>
+    <circle cx="258" cy="148" r="0.4"/>
+    <circle cx="352" cy="306" r="0.3"/>
+    <circle cx="107" cy="115" r="0.5"/>
+    <circle cx="241" cy="46" r="0.3"/>
+    <circle cx="386" cy="239" r="0.4"/>
+    <circle cx="179" cy="198" r="0.5"/>
+  </g>
+  
+  <!-- Medium stars -->
+  <g fill="#FFFFFF" opacity="0.7">
+    <circle cx="125" cy="142" r="0.8"/>
+    <circle cx="276" cy="207" r="0.7"/>
+    <circle cx="358" cy="89" r="0.8"/>
+    <circle cx="74" cy="327" r="0.7"/>
+    <circle cx="217" cy="68" r="0.8"/>
+    <circle cx="372" cy="312" r="0.7"/>
+    <circle cx="34" cy="186" r="0.8"/>
+    <circle cx="198" cy="357" r="0.7"/>
+    <circle cx="267" cy="123" r="0.8"/>
+  </g>
+  
+  <!-- Large stars with glow -->
+  <g>
+    <circle cx="103" cy="211" r="1.2" fill="#FFFFFF"/>
+    <circle cx="103" cy="211" r="2.5" fill="none" stroke="#FFFFFF" stroke-width="0.3" opacity="0.2"/>
+    
+    <circle cx="322" cy="167" r="1.2" fill="#FFFFFF"/>
+    <circle cx="322" cy="167" r="2.5" fill="none" stroke="#FFFFFF" stroke-width="0.3" opacity="0.2"/>
+    
+    <circle cx="246" cy="346" r="1.2" fill="#FFFFFF"/>
+    <circle cx="246" cy="346" r="2.5" fill="none" stroke="#FFFFFF" stroke-width="0.3" opacity="0.2"/>
+    
+    <circle cx="59" cy="87" r="1.2" fill="#FFFFFF"/>
+    <circle cx="59" cy="87" r="2.5" fill="none" stroke="#FFFFFF" stroke-width="0.3" opacity="0.2"/>
+  </g>
+  
+  <!-- Cyan tinted stars -->
+  <g fill="#00F5FF" opacity="0.8">
+    <circle cx="172" cy="89" r="0.6"/>
+    <circle cx="348" cy="264" r="0.5"/>
+    <circle cx="78" cy="214" r="0.6"/>
+    <circle cx="289" cy="37" r="0.5"/>
+  </g>
+  
+  <!-- Purple tinted stars -->
+  <g fill="#7000FF" opacity="0.8">
+    <circle cx="231" cy="142" r="0.6"/>
+    <circle cx="56" cy="312" r="0.5"/>
+    <circle cx="369" cy="178" r="0.6"/>
+    <circle cx="132" cy="27" r="0.5"/>
+  </g>
+</svg> 

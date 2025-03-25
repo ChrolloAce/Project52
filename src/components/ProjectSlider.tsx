@@ -1,0 +1,317 @@
+'use client'
+
+import { useState, useRef, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { theme } from '@/styles/theme'
+
+// Add a type definition for the project item
+type ProjectItem = {
+  id: number;
+  name: string;
+  status: 'active' | 'locked';
+  week: number;
+  description: string;
+  tags: string[];
+  image?: string;
+  link?: string;
+}
+
+// Generate 52 locked project slots with Project 1 unlocked as PolarStock
+const projects: ProjectItem[] = [
+  // Project 1 - PolarStock
+  {
+    id: 1,
+    name: "PolarStock",
+    status: 'active',
+    week: 1,
+    description: "Optimize, compress, and edit premium stock images in seconds. Launch projects faster with pixel-perfect visuals.",
+    tags: ['#images', '#optimization', '#week1'],
+    image: '/proj1.png',
+    link: 'https://polarstock.co'
+  },
+  // Generate the remaining locked projects
+  ...Array.from({ length: 51 }, (_, i) => ({
+    id: i + 2,
+    name: `Project ${i + 2}`,
+    status: 'locked' as const,
+    week: i + 2,
+    description: `This startup will be launched in week ${i + 2}`,
+    tags: ['#startup', `#week${i + 2}`],
+  }))
+]
+
+const ProjectSlider = () => {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const sliderRef = useRef<HTMLDivElement>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!sliderRef.current) return
+    setIsDragging(true)
+    setStartX(e.pageX - sliderRef.current.offsetLeft)
+    setScrollLeft(sliderRef.current.scrollLeft)
+  }
+
+  const handleMouseUp = () => {
+    setIsDragging(false)
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !sliderRef.current) return
+    e.preventDefault()
+    const x = e.pageX - sliderRef.current.offsetLeft
+    const walk = (x - startX) * 2
+    sliderRef.current.scrollLeft = scrollLeft - walk
+  }
+
+  const scrollTo = (index: number) => {
+    if (!sliderRef.current) return
+    const cardWidth = sliderRef.current.offsetWidth * (isMobile ? 0.85 : 0.35)
+    sliderRef.current.scrollTo({
+      left: index * cardWidth,
+      behavior: 'smooth'
+    })
+    setActiveIndex(index)
+  }
+
+  const nextSlide = () => {
+    const newIndex = Math.min(activeIndex + 1, projects.length - 1)
+    scrollTo(newIndex)
+  }
+
+  const prevSlide = () => {
+    const newIndex = Math.max(activeIndex - 1, 0)
+    scrollTo(newIndex)
+  }
+  
+  // Calculate progress
+  const progress = (activeIndex / (projects.length - 1)) * 100
+
+  return (
+    <div className="w-full my-10">
+      <div className="relative mb-10">
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h2 className="text-2xl font-bold text-white flex items-center">
+              <span>Project </span>
+              <span className="text-neon-cyan font-bold mx-1">{activeIndex + 1}</span>
+              <span className="text-white"> of 52</span>
+              <div className="ml-3 px-3 py-1 text-xs rounded-full bg-space-dark border border-glass-stroke text-neon-cyan">
+                Week {activeIndex + 1}
+              </div>
+            </h2>
+            <div className="mt-3 flex items-center">
+              <div className="relative w-64 h-2 bg-space-dark rounded-full overflow-hidden">
+                <motion.div 
+                  className="absolute top-0 left-0 h-full bg-neon-cyan"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${progress}%` }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                />
+              </div>
+              <span className="ml-3 text-sm text-text-secondary">{Math.round(progress)}% complete</span>
+            </div>
+          </div>
+          
+          <div className="flex items-center space-x-4">
+            <button 
+              onClick={prevSlide} 
+              className={`p-3 rounded-full border border-glass-stroke ${activeIndex === 0 ? 'text-text-disabled opacity-50 cursor-not-allowed' : 'text-text-primary hover:bg-space-dark hover:border-neon-cyan/30'}`}
+              disabled={activeIndex === 0}
+              aria-label="Previous project"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button 
+              onClick={nextSlide} 
+              className={`p-3 rounded-full border border-glass-stroke ${activeIndex === projects.length - 1 ? 'text-text-disabled opacity-50 cursor-not-allowed' : 'text-text-primary hover:bg-space-dark hover:border-neon-cyan/30'}`}
+              disabled={activeIndex === projects.length - 1}
+              aria-label="Next project"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div 
+          ref={sliderRef}
+          className="flex space-x-6 overflow-x-auto pb-12 pt-4 masked-overflow scroll-hidden"
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          onMouseMove={handleMouseMove}
+        >
+          {projects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              layoutId={`project-${project.id}`}
+              className={`flex-shrink-0 relative ${
+                isMobile ? 'w-[85%]' : project.status === 'active' ? 'w-[50%]' : 'w-[35%]'
+              } backdrop-blur-md border rounded-xl overflow-hidden ${
+                activeIndex === index ? 'border-neon-cyan shadow-[0_0_30px_rgba(0,245,255,0.15)]' : 'border-glass-stroke'
+              }`}
+              animate={{
+                scale: activeIndex === index ? 1.03 : 1,
+                opacity: Math.abs(activeIndex - index) > 2 ? 0.6 : 1,
+              }}
+              transition={{ duration: 0.3 }}
+              onClick={() => scrollTo(index)}
+              style={{
+                background: project.status === 'active' 
+                  ? 'linear-gradient(135deg, rgba(10, 10, 24, 0.6) 0%, rgba(7, 3, 36, 0.6) 100%)'
+                  : 'linear-gradient(135deg, rgba(10, 10, 24, 0.8) 0%, rgba(7, 3, 36, 0.8) 100%)',
+              }}
+            >
+              {/* Project number badge */}
+              <div className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full flex items-center justify-center bg-space-dark border border-glass-stroke">
+                <span className="text-neon-cyan font-medium text-sm">{project.id}</span>
+              </div>
+              
+              <div className={`aspect-[${project.status === 'active' ? '16/9' : '3/2'}] relative overflow-hidden rounded-t-xl`}>
+                {project.status === 'active' ? (
+                  // For active project (PolarStock), just show the image with no overlay
+                  <img 
+                    src={project.image} 
+                    alt={project.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  // For locked projects, show the gradient and lock icon
+                  <>
+                    <div className="absolute inset-0 bg-gradient-to-br from-space-blue to-space-dark"></div>
+                    <div className="absolute inset-0 bg-grid-lines opacity-30"></div>
+                    
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <div className="w-20 h-20 relative mb-5 neon-glow">
+                        <div className="absolute inset-0 rounded-full bg-space-dark border border-glass-stroke flex items-center justify-center">
+                          <motion.div
+                            animate={{ scale: [1, 1.05, 1], opacity: [0.7, 1, 0.7] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                          >
+                            <svg className="w-10 h-10 text-neon-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                          </motion.div>
+                        </div>
+                      </div>
+                      
+                      <AnimatePresence>
+                        {activeIndex === index && (
+                          <motion.div 
+                            className="text-center"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <p className="text-neon-cyan font-medium mb-1">Week {project.week}</p>
+                            <h3 className="text-white text-2xl font-bold">Coming Soon</h3>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </>
+                )}
+              </div>
+              
+              <div className="p-6">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="font-bold text-xl text-white">{project.name}</h3>
+                  <span className={`text-xs px-3 py-1 rounded-full ${
+                    project.status === 'active' 
+                      ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30' 
+                      : 'bg-space-dark text-neon-cyan border border-neon-cyan/20'
+                  }`}>
+                    {project.status === 'active' ? 'Active' : 'Locked'}
+                  </span>
+                </div>
+                
+                <p className="text-text-secondary mb-5">{project.description}</p>
+                
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {project.tags.map((tag, tagIndex) => (
+                    <div key={tagIndex} className="px-3 py-1 rounded-full text-xs bg-space-dark text-text-secondary border border-glass-stroke">
+                      {tag}
+                    </div>
+                  ))}
+                </div>
+
+                {project.status === 'active' && project.link && (
+                  <a 
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-4 py-2 rounded-lg bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/30 hover:bg-neon-cyan/20 transition-all duration-300"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span>Visit Project</span>
+                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        
+        <div className="mt-10 flex justify-center">
+          <div className="flex space-x-2">
+            {Array.from({ length: 6 }).map((_, dotIndex) => {
+              const segmentSize = Math.ceil(projects.length / 6)
+              const isActive = Math.floor(activeIndex / segmentSize) === dotIndex
+              
+              return (
+                <button
+                  key={dotIndex}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    isActive 
+                      ? 'w-8 bg-neon-cyan' 
+                      : 'w-2 bg-space-dark'
+                  }`}
+                  onClick={() => scrollTo(dotIndex * segmentSize)}
+                  aria-label={`Go to projects section ${dotIndex + 1}`}
+                />
+              )
+            })}
+          </div>
+        </div>
+      </div>
+      
+      <div className="flex justify-center">
+        <motion.button
+          className="bg-neon-cyan hover:bg-neon-cyan/90 text-deep-space text-lg font-bold py-5 px-12 rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,245,255,0.6)] hover:scale-105"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.97 }}
+        >
+          <span className="flex items-center">
+            <span>Start Your Journey</span>
+            <svg className="w-6 h-6 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </span>
+        </motion.button>
+      </div>
+    </div>
+  )
+}
+
+export default ProjectSlider 
