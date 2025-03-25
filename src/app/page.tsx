@@ -85,8 +85,10 @@ export default function Home() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              An unprecedented challenge to launch 52 revolutionary businesses in just 52 weeks. 
-              <span className="text-white"> Breaking all limits of what's possible in the startup world.</span>
+              <span className="text-white">You heard that right.</span> While it sounds impossible to launch 52 new startups in 52 weeks, 
+              I've set strict rules to stay accountable. <span className="text-neon-cyan">Everything I build must solve real problems and innovate</span>. 
+              I started this challenge to push my creative limits and accelerate my learning through rapid execution.
+              Follow as I document this journey of trial and error from start to finish — and perhaps learn alongside me.
             </motion.p>
             
             {/* Revenue goal chart - simplified */}
