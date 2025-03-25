@@ -14,6 +14,7 @@ const Header = () => {
   })
   
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     // Set end date to the end of the year
@@ -55,93 +56,89 @@ const Header = () => {
   }, [])
 
   return (
-    <header className={`sticky top-0 w-full py-4 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-glass-gray backdrop-blur-md border-b border-glass-stroke' : ''
-    }`}>
-      <div className={theme.layout.container}>
-        <nav className="flex justify-between items-center">
-          <motion.div 
-            className="flex items-center"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="w-10 h-10 mr-3 relative">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-neon-cyan to-neon-purple opacity-70 animate-pulse-slow"></div>
-              <div className="absolute inset-0.5 rounded-full bg-space-blue flex items-center justify-center">
-                <span className="text-white font-bold">52</span>
-              </div>
-            </div>
-            <Link href="/" className="flex flex-col">
-              <span className="text-xl font-bold">
-                <span className="text-gradient">Project</span>
-                <span className="text-text-primary"> 52</span>
-              </span>
-              <span className="text-xs text-text-secondary">52 weeks, 52 startups</span>
-            </Link>
-          </motion.div>
-          
+    <header 
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        isScrolled ? 'py-4 bg-deep-space/80 backdrop-blur-md border-b border-glass-stroke' : 'py-6'
+      }`}
+    >
+      <div className="container mx-auto px-4 flex justify-between items-center">
+        <motion.div 
+          className="flex items-center space-x-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="w-10 h-10 rounded-full bg-neon-cyan/10 flex items-center justify-center">
+            <div className="w-6 h-6 rounded-full bg-neon-cyan"></div>
+          </div>
+          <span className="text-lg font-bold">Project<span className="text-neon-cyan">52</span></span>
+        </motion.div>
+        
+        {/* Add hamburger menu for mobile */}
+        <button 
+          className="md:hidden p-2 rounded-full hover:bg-space-dark"
+          onClick={() => setIsMenuOpen(true)}
+        >
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        
+        {/* Desktop navigation */}
+        <motion.div
+          className="hidden md:flex items-center gap-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <nav className="flex items-center gap-6">
+            <a href="#" className="text-white hover:text-neon-cyan transition-colors">Features</a>
+            <a href="#" className="text-white hover:text-neon-cyan transition-colors">Pricing</a>
+            <a href="#" className="text-white hover:text-neon-cyan transition-colors">FAQ</a>
+          </nav>
+        </motion.div>
+        
+        {/* Mobile menu - overlay */}
+        {isMenuOpen && (
           <motion.div
-            className="hidden md:flex items-center space-x-6 text-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            className="fixed inset-0 z-40 bg-deep-space bg-opacity-95 backdrop-blur-md flex flex-col"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
           >
-            {[
-              { name: 'Home', path: '/' },
-              { name: 'Projects', path: '/projects' },
-              { name: 'Journey', path: '/journey' },
-              { name: 'About', path: '/about' }
-            ].map((item, index) => (
-              <Link 
-                key={index} 
-                href={item.path}
-                className="text-text-secondary hover:text-neon-cyan transition-colors"
+            <div className="container mx-auto px-4 py-6 flex justify-between items-center border-b border-glass-stroke">
+              <div className="flex items-center space-x-2">
+                <div className="w-10 h-10 rounded-full bg-neon-cyan/10 flex items-center justify-center">
+                  <div className="w-6 h-6 rounded-full bg-neon-cyan"></div>
+                </div>
+                <span className="text-lg font-bold">Project<span className="text-neon-cyan">52</span></span>
+              </div>
+              <button 
+                onClick={() => setIsMenuOpen(false)}
+                className="p-2 rounded-full hover:bg-space-dark"
               >
-                {item.name}
-              </Link>
-            ))}
-          </motion.div>
-          
-          <motion.div
-            className="flex items-center"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="hidden sm:flex items-center mr-4 px-4 py-2 rounded-full bg-glass-gray backdrop-blur-sm border border-glass-stroke">
-              <span className="text-neon-cyan text-xs mr-2">Challenge Ends In</span>
-              <div className="flex space-x-1 text-white text-xs font-medium">
-                <div className="flex items-center">
-                  <span>{timeRemaining.days}</span>
-                  <span className="text-text-secondary mx-1">:</span>
-                </div>
-                <div className="flex items-center">
-                  <span>{String(timeRemaining.hours).padStart(2, '0')}</span>
-                  <span className="text-text-secondary mx-1">:</span>
-                </div>
-                <div className="flex items-center">
-                  <span>{String(timeRemaining.minutes).padStart(2, '0')}</span>
-                  <span className="text-text-secondary mx-1">:</span>
-                </div>
-                <span>{String(timeRemaining.seconds).padStart(2, '0')}</span>
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            <div className="flex-1 flex flex-col justify-center">
+              <div className="container mx-auto px-6">
+                <nav className="flex flex-col space-y-6 text-center">
+                  <a href="#" className="text-2xl text-white hover:text-neon-cyan transition-colors py-3">Features</a>
+                  <a href="#" className="text-2xl text-white hover:text-neon-cyan transition-colors py-3">Pricing</a>
+                  <a href="#" className="text-2xl text-white hover:text-neon-cyan transition-colors py-3">FAQ</a>
+                </nav>
               </div>
             </div>
-            <motion.button
-              className={theme.buttons.primary}
-              whileTap={{ scale: 0.97 }}
-            >
-              Subscribe
-            </motion.button>
+            
+            <div className="container mx-auto px-6 py-8 border-t border-glass-stroke">
+              {/* Get Started button removed */}
+            </div>
           </motion.div>
-          
-          {/* Mobile menu button */}
-          <button className="md:hidden p-2 text-text-primary">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </nav>
+        )}
       </div>
     </header>
   )

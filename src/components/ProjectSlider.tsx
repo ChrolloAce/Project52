@@ -80,12 +80,32 @@ const ProjectSlider = () => {
 
   const scrollTo = (index: number) => {
     if (!sliderRef.current) return
-    const cardWidth = sliderRef.current.offsetWidth * (isMobile ? 0.85 : 0.35)
+    
+    // Calculate the width of the card based on the viewport
+    let cardWidth = 0;
+    
+    if (isMobile) {
+      // On mobile, use the actual card width including the gap
+      const cards = sliderRef.current.querySelectorAll(':scope > div');
+      if (cards.length > 0 && cards[index]) {
+        // Include the gap in the calculation (24px = 6rem space-x-6)
+        cardWidth = cards[index].clientWidth + 24;
+      } else {
+        // Fallback to percentage-based calculation
+        cardWidth = sliderRef.current.offsetWidth * 0.85;
+      }
+    } else {
+      // On desktop, use percentage of slider width
+      cardWidth = sliderRef.current.offsetWidth * (projects[index].status === 'active' ? 0.5 : 0.35);
+    }
+    
+    // Scroll to the card
     sliderRef.current.scrollTo({
       left: index * cardWidth,
       behavior: 'smooth'
-    })
-    setActiveIndex(index)
+    });
+    
+    setActiveIndex(index);
   }
 
   const nextSlide = () => {
@@ -102,35 +122,43 @@ const ProjectSlider = () => {
   const progress = (activeIndex / (projects.length - 1)) * 100
 
   return (
-    <div className="w-full my-10">
+    <div className="w-full my-10 overflow-x-hidden">
       <div className="relative mb-10">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 px-4 md:px-0">
           <div>
-            <h2 className="text-2xl font-bold text-white flex items-center">
+            <h2 className="text-2xl font-bold text-white flex flex-wrap items-center">
               <span>Project </span>
               <span className="text-neon-cyan font-bold mx-1">{activeIndex + 1}</span>
               <span className="text-white"> of 52</span>
-              <div className="ml-3 px-3 py-1 text-xs rounded-full bg-space-dark border border-glass-stroke text-neon-cyan">
+              <div className="ml-3 px-3 py-1 text-xs rounded-full bg-space-dark/80 backdrop-blur-md border border-neon-cyan/30 text-neon-cyan">
                 Week {activeIndex + 1}
               </div>
             </h2>
             <div className="mt-3 flex items-center">
-              <div className="relative w-64 h-2 bg-space-dark rounded-full overflow-hidden">
+              <div className="relative w-full md:w-64 h-2.5 bg-space-dark/80 backdrop-blur-md rounded-full overflow-hidden border border-glass-stroke">
                 <motion.div 
-                  className="absolute top-0 left-0 h-full bg-neon-cyan"
+                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-neon-cyan to-neon-blue"
                   initial={{ width: 0 }}
                   animate={{ width: `${progress}%` }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                 />
+                <div className="absolute top-0 left-0 h-full w-full opacity-30 bg-shimmer"></div>
               </div>
-              <span className="ml-3 text-sm text-text-secondary">{Math.round(progress)}% complete</span>
+              <div className="ml-3 text-sm">
+                <span className="text-neon-cyan font-medium">{Math.round(progress)}%</span>
+                <span className="text-text-secondary"> complete</span>
+              </div>
             </div>
           </div>
           
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 mt-4 md:mt-0">
             <button 
               onClick={prevSlide} 
-              className={`p-3 rounded-full border border-glass-stroke ${activeIndex === 0 ? 'text-text-disabled opacity-50 cursor-not-allowed' : 'text-text-primary hover:bg-space-dark hover:border-neon-cyan/30'}`}
+              className={`p-3 rounded-full backdrop-blur-sm ${
+                activeIndex === 0 
+                  ? 'text-text-disabled opacity-50 cursor-not-allowed border border-glass-stroke' 
+                  : 'text-neon-cyan border border-neon-cyan/30 hover:border-neon-cyan hover:shadow-[0_0_10px_rgba(0,245,255,0.2)] hover:bg-neon-cyan/5'
+              }`}
               disabled={activeIndex === 0}
               aria-label="Previous project"
             >
@@ -140,7 +168,11 @@ const ProjectSlider = () => {
             </button>
             <button 
               onClick={nextSlide} 
-              className={`p-3 rounded-full border border-glass-stroke ${activeIndex === projects.length - 1 ? 'text-text-disabled opacity-50 cursor-not-allowed' : 'text-text-primary hover:bg-space-dark hover:border-neon-cyan/30'}`}
+              className={`p-3 rounded-full backdrop-blur-sm ${
+                activeIndex === projects.length - 1 
+                  ? 'text-text-disabled opacity-50 cursor-not-allowed border border-glass-stroke' 
+                  : 'text-neon-cyan border border-neon-cyan/30 hover:border-neon-cyan hover:shadow-[0_0_10px_rgba(0,245,255,0.2)] hover:bg-neon-cyan/5'
+              }`}
               disabled={activeIndex === projects.length - 1}
               aria-label="Next project"
             >
@@ -153,7 +185,7 @@ const ProjectSlider = () => {
 
         <div 
           ref={sliderRef}
-          className="flex space-x-6 overflow-x-auto pb-12 pt-4 masked-overflow scroll-hidden"
+          className="flex space-x-6 overflow-x-auto pb-12 pt-4 px-4 md:px-0 masked-overflow scroll-hidden"
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
@@ -166,7 +198,7 @@ const ProjectSlider = () => {
               className={`flex-shrink-0 relative ${
                 isMobile ? 'w-[85%]' : project.status === 'active' ? 'w-[50%]' : 'w-[35%]'
               } backdrop-blur-md border rounded-xl overflow-hidden ${
-                activeIndex === index ? 'border-neon-cyan shadow-[0_0_30px_rgba(0,245,255,0.15)]' : 'border-glass-stroke'
+                activeIndex === index ? 'border-neon-cyan shadow-[0_0_30px_rgba(0,245,255,0.3)]' : 'border-glass-stroke'
               }`}
               animate={{
                 scale: activeIndex === index ? 1.03 : 1,
@@ -176,23 +208,31 @@ const ProjectSlider = () => {
               onClick={() => scrollTo(index)}
               style={{
                 background: project.status === 'active' 
-                  ? 'linear-gradient(135deg, rgba(10, 10, 24, 0.6) 0%, rgba(7, 3, 36, 0.6) 100%)'
+                  ? 'linear-gradient(135deg, rgba(10, 10, 24, 0.5) 0%, rgba(7, 3, 36, 0.5) 100%)'
                   : 'linear-gradient(135deg, rgba(10, 10, 24, 0.8) 0%, rgba(7, 3, 36, 0.8) 100%)',
               }}
             >
+              {/* Add a subtle glow effect for active project */}
+              {activeIndex === index && (
+                <div className="absolute -inset-0.5 bg-gradient-to-tr from-neon-cyan/20 via-neon-purple/20 to-neon-cyan/20 rounded-xl blur-sm -z-10"></div>
+              )}
+              
               {/* Project number badge */}
-              <div className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full flex items-center justify-center bg-space-dark border border-glass-stroke">
+              <div className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full flex items-center justify-center bg-space-dark border border-glass-stroke backdrop-blur-sm">
                 <span className="text-neon-cyan font-medium text-sm">{project.id}</span>
               </div>
               
               <div className={`aspect-[${project.status === 'active' ? '16/9' : '3/2'}] relative overflow-hidden rounded-t-xl`}>
                 {project.status === 'active' ? (
                   // For active project (PolarStock), just show the image with no overlay
-                  <img 
-                    src={project.image} 
-                    alt={project.name}
-                    className="w-full h-full object-cover"
-                  />
+                  <div className="relative w-full h-full">
+                    <img 
+                      src={project.image} 
+                      alt={project.name}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-space-dark/70 via-transparent to-transparent"></div>
+                  </div>
                 ) : (
                   // For locked projects, show the gradient and lock icon
                   <>
@@ -235,10 +275,10 @@ const ProjectSlider = () => {
               <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="font-bold text-xl text-white">{project.name}</h3>
-                  <span className={`text-xs px-3 py-1 rounded-full ${
+                  <span className={`text-xs px-3 py-1 rounded-full backdrop-blur-sm ${
                     project.status === 'active' 
-                      ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30' 
-                      : 'bg-space-dark text-neon-cyan border border-neon-cyan/20'
+                      ? 'bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/40 shadow-[0_0_8px_rgba(0,245,255,0.15)]' 
+                      : 'bg-space-dark/80 text-neon-cyan border border-neon-cyan/20'
                   }`}>
                     {project.status === 'active' ? 'Active' : 'Locked'}
                   </span>
@@ -248,8 +288,12 @@ const ProjectSlider = () => {
                 
                 <div className="flex flex-wrap gap-2 mb-5">
                   {project.tags.map((tag, tagIndex) => (
-                    <div key={tagIndex} className="px-3 py-1 rounded-full text-xs bg-space-dark text-text-secondary border border-glass-stroke">
-                      {tag}
+                    <div 
+                      key={tagIndex} 
+                      className="px-3 py-1 rounded-full text-xs backdrop-blur-sm bg-space-dark/60 text-white border border-glass-stroke hover:border-neon-cyan/30 transition-all duration-300 hover:text-neon-cyan"
+                    >
+                      <span className="text-neon-cyan">#</span>
+                      <span>{tag.replace('#', '')}</span>
                     </div>
                   ))}
                 </div>
@@ -259,7 +303,7 @@ const ProjectSlider = () => {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center px-4 py-2 rounded-lg bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/30 hover:bg-neon-cyan/20 transition-all duration-300"
+                    className="inline-flex items-center px-4 py-2 rounded-lg bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/30 hover:bg-neon-cyan/20 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,245,255,0.2)]"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <span>Visit Project</span>
@@ -298,11 +342,13 @@ const ProjectSlider = () => {
       
       <div className="flex justify-center">
         <motion.button
-          className="bg-neon-cyan hover:bg-neon-cyan/90 text-deep-space text-lg font-bold py-5 px-12 rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,245,255,0.6)] hover:scale-105"
+          className="group relative bg-gradient-to-r from-neon-cyan to-neon-blue text-white text-lg font-bold py-5 px-12 rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,245,255,0.6)] hover:scale-105 overflow-hidden border border-neon-cyan/30"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
         >
-          <span className="flex items-center">
+          <span className="absolute inset-0 bg-gradient-to-r from-neon-cyan to-neon-blue opacity-0 group-hover:opacity-30 transition-opacity duration-300"></span>
+          <span className="absolute -inset-px bg-gradient-to-r from-neon-cyan to-neon-blue opacity-30 blur-sm"></span>
+          <span className="relative flex items-center">
             <span>Start Your Journey</span>
             <svg className="w-6 h-6 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />

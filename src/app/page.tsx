@@ -29,7 +29,10 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <span className="text-text-primary">Project </span>
-              <span className="text-white font-bold">52</span>
+              <span className="relative inline-block">
+                <span className="text-neon-cyan font-bold">52</span>
+                <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-neon-cyan animate-pulse"></div>
+              </span>
             </motion.h1>
             
             <motion.h2 
@@ -39,9 +42,10 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               <span className="relative">
-                52 Startups in 52 Weeks
+                <span className="text-neon-cyan">52 Startups</span>
+                <span className="text-white"> in 52 Weeks</span>
                 <motion.span 
-                  className="absolute -bottom-1 left-0 w-full h-1 bg-neon-cyan"
+                  className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-neon-cyan to-neon-purple"
                   initial={{ width: 0, opacity: 0 }}
                   animate={{ width: '100%', opacity: 1 }}
                   transition={{ duration: 1, delay: 0.8 }}
@@ -49,17 +53,41 @@ export default function Home() {
               </span>
             </motion.h2>
             
-            <motion.p 
-              className="text-lg md:text-xl text-text-secondary mb-12 max-w-2xl mx-auto"
+            <motion.p
+              className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto mb-10"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              I'm challenging myself to build and launch one startup every week for a whole year. 
-              Follow my journey from ideation to execution, with all the successes and failures along the way.
+              An unprecedented challenge to launch 52 revolutionary businesses in just 52 weeks. 
+              <span className="text-white"> Breaking all limits of what's possible in the startup world.</span>
             </motion.p>
             
-            {/* YouTube Channel Link - removed Follow button and replaced with just YouTube button */}
+            {/* Revenue goal chart - simplified */}
+            <motion.div 
+              className="w-full max-w-2xl mx-auto bg-space-dark/60 rounded-xl backdrop-blur-md border border-glass-stroke p-6 mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-white font-bold text-lg">Revenue Goal</h3>
+                <div className="flex items-center">
+                  <span className="text-white font-bold text-2xl">$1,000,000</span>
+                </div>
+              </div>
+              
+              <div className="w-full h-3 bg-space-blue/50 rounded-full overflow-hidden mb-3 backdrop-blur-md">
+                <div className="h-full bg-neon-cyan w-[0%]"></div>
+              </div>
+              
+              <div className="flex justify-between text-sm">
+                <div className="text-text-secondary">Current: <span className="text-neon-cyan font-medium">$0</span></div>
+                <div className="text-text-secondary">Week: <span className="text-white font-medium">1/52</span></div>
+              </div>
+            </motion.div>
+            
+            {/* YouTube Channel Link */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
