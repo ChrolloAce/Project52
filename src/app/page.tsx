@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import ProjectSlider from '@/components/ProjectSlider'
@@ -10,6 +10,52 @@ import { headingSizes, animations } from '@/styles/theme'
 
 export default function Home() {
   const [mounted, setMounted] = useState(true)
+  const [timeLeft, setTimeLeft] = useState({
+    days: '00',
+    hours: '00',
+    minutes: '00',
+    seconds: '00'
+  })
+
+  useEffect(() => {
+    // Function to calculate time remaining until April 15, 2025
+    const calculateTimeRemaining = () => {
+      const now = new Date()
+      const targetDate = new Date('April 15, 2025 00:00:00')
+      
+      // Calculate time difference in milliseconds
+      const differenceMs = targetDate.getTime() - now.getTime()
+      
+      if (differenceMs <= 0) {
+        return { days: '00', hours: '00', minutes: '00', seconds: '00' }
+      }
+      
+      // Convert to days, hours, minutes, seconds
+      const days = Math.floor(differenceMs / (1000 * 60 * 60 * 24))
+      const hours = Math.floor((differenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const minutes = Math.floor((differenceMs % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds = Math.floor((differenceMs % (1000 * 60)) / 1000)
+      
+      // Format with leading zeros
+      return {
+        days: days.toString().padStart(2, '0'),
+        hours: hours.toString().padStart(2, '0'),
+        minutes: minutes.toString().padStart(2, '0'),
+        seconds: seconds.toString().padStart(2, '0')
+      }
+    }
+    
+    // Set initial time
+    setTimeLeft(calculateTimeRemaining())
+    
+    // Update every second
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeRemaining())
+    }, 1000)
+    
+    // Clean up interval on unmount
+    return () => clearInterval(timer)
+  }, [])
 
   return (
     <main className="flex min-h-screen flex-col">
@@ -62,7 +108,7 @@ export default function Home() {
             </motion.div>
             
             <motion.h2 
-              className={`${headingSizes.h3} font-light text-text-secondary mb-8 text-xl md:text-2xl lg:text-3xl`}
+              className={`${headingSizes.h3} font-light text-text-secondary mb-3 text-xl md:text-2xl lg:text-3xl`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
@@ -78,6 +124,42 @@ export default function Home() {
                 />
               </span>
             </motion.h2>
+            
+            {/* Countdown Timer */}
+            <motion.div
+              className="flex flex-col items-center mb-10 mt-8"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <div className="text-sm md:text-base text-neon-cyan mb-4 font-medium bg-neon-cyan/10 px-4 py-1.5 rounded-full border border-neon-cyan/20">
+                Challenge begins in:
+              </div>
+              <div className="flex flex-wrap justify-center gap-3 md:gap-5">
+                {[
+                  { label: 'Days', value: timeLeft.days },
+                  { label: 'Hours', value: timeLeft.hours },
+                  { label: 'Minutes', value: timeLeft.minutes },
+                  { label: 'Seconds', value: timeLeft.seconds },
+                ].map((item, index) => (
+                  <div key={index} className="flex flex-col items-center">
+                    <div className="relative bg-space-dark w-16 md:w-20 lg:w-24 h-16 md:h-20 lg:h-24 rounded-lg border border-glass-stroke backdrop-blur-sm flex items-center justify-center mb-2 overflow-hidden">
+                      <div className="absolute inset-0 bg-grid-lines opacity-20"></div>
+                      <div className="absolute top-0 left-0 w-full h-full bg-neon-cyan/5"></div>
+                      <span className="text-2xl md:text-3xl lg:text-4xl font-bold text-white relative z-10">{item.value}</span>
+                      {/* Separator dots for all except last item */}
+                      {index < 3 && (
+                        <div className="absolute -right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-neon-cyan"></div>
+                          <div className="w-1.5 h-1.5 rounded-full bg-neon-cyan"></div>
+                        </div>
+                      )}
+                    </div>
+                    <span className="text-xs md:text-sm text-text-secondary">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
             
             <motion.p
               className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto mb-10"
