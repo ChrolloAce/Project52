@@ -48,10 +48,10 @@ export default function Home() {
                   "Welcome to Project 52",
                   "There's only 52 weeks in 1 year",
                   "And I will build 1 new startup and monetize for every week of the year",
-                  "That means I will build one new startup every 7 days",
+                  "That means I will build 1 new startup every 7 days",
                   "1 startup every 168 hours",
-                  "One startup every 10,080 minutes",
-                  "One new startup every 604,800 seconds",
+                  "1 startup every 10,080 minutes",
+                  "1 new startup every 604,800 seconds",
                   "Tick Tock..."
                 ]}
                 typingSpeed={50}
@@ -167,8 +167,8 @@ export default function Home() {
                     icon: (
                       <div className="relative">
                         <div className="absolute inset-0 bg-neon-cyan/20 rounded-lg animate-pulse"></div>
-                        <svg className="w-12 h-12 text-neon-cyan relative z-10" viewBox="0 0 24 24">
-                          <path fill="currentColor" d="M10.5,2H13.5C14.33,2 15,2.67 15,3.5V4H17.5C18.33,4 19,4.67 19,5.5V8H21.5C22.33,8 23,8.67 23,9.5V12.5C23,13.33 22.33,14 21.5,14H19V16.5C19,17.33 18.33,18 17.5,18H15V20.5C15,21.33 14.33,22 13.5,22H10.5C9.67,22 9,21.33 9,20.5V18H6.5C5.67,18 5,17.33 5,16.5V14H2.5C1.67,14 1,13.33 1,12.5V9.5C1,8.67 1.67,8 2.5,8H5V5.5C5,4.67 5.67,4 6.5,4H9V3.5C9,2.67 9.67,2 10.5,2M12,6A1,1 0 0,0 11,7A1,1 0 0,0 12,8A1,1 0 0,0 13,7A1,1 0 0,0 12,6M7,9A1,1 0 0,0 6,10A1,1 0 0,0 7,11A1,1 0 0,0 8,10A1,1 0 0,0 7,9M17,9A1,1 0 0,0 16,10A1,1 0 0,0 17,11A1,1 0 0,0 18,10A1,1 0 0,0 17,9M12,12A1,1 0 0,0 11,13A1,1 0 0,0 12,14A1,1 0 0,0 13,13A1,1 0 0,0 12,12M7,15A1,1 0 0,0 6,16A1,1 0 0,0 7,17A1,1 0 0,0 8,16A1,1 0 0,0 7,15M17,15A1,1 0 0,0 16,16A1,1 0 0,0 17,17A1,1 0 0,0 18,16A1,1 0 0,0 17,15Z" />
+                        <svg className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-neon-cyan relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.5 20.25h-9" />
                         </svg>
                       </div>
                     )
@@ -179,9 +179,8 @@ export default function Home() {
                     icon: (
                       <div className="relative">
                         <div className="absolute inset-0 bg-neon-purple/20 rounded-lg animate-pulse"></div>
-                        <svg className="w-12 h-12 text-neon-purple relative z-10" viewBox="0 0 24 24">
-                          <path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12S17.5 2 12 2M12.5 13H11V7H12.5V13M12.5 17H11V15H12.5V17Z" />
-                          <path fill="#FFB800" d="M15,16.27V19.27L19.5,16.5L15,13.73V16.27Z" />
+                        <svg className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-neon-purple relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       </div>
                     )
@@ -192,8 +191,8 @@ export default function Home() {
                     icon: (
                       <div className="relative">
                         <div className="absolute inset-0 bg-neon-pink/20 rounded-lg animate-pulse"></div>
-                        <svg className="w-12 h-12 text-neon-pink relative z-10" viewBox="0 0 24 24">
-                          <path fill="currentColor" d="M20,11H4V8H20M20,15H13V13H20M20,19H13V17H20M11,19H4V13H11M20.33,4.67L18.67,3L17,4.67L15.33,3L13.67,4.67L12,3L10.33,4.67L8.67,3L7,4.67L5.33,3L3.67,4.67L2,3V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V3L20.33,4.67Z" />
+                        <svg className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-neon-pink relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                         </svg>
                       </div>
                     )
@@ -204,9 +203,8 @@ export default function Home() {
                     icon: (
                       <div className="relative">
                         <div className="absolute inset-0 bg-cyber-yellow/20 rounded-lg animate-pulse"></div>
-                        <svg className="w-12 h-12 text-cyber-yellow relative z-10" viewBox="0 0 24 24">
-                          <path fill="currentColor" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,17V16H9V14H13V13H10A1,1 0 0,1 9,12V9A1,1 0 0,1 10,8H11V7H13V8H15V10H11V11H14A1,1 0 0,1 15,12V15A1,1 0 0,1 14,16H13V17H11Z" />
-                          <path fill="#00F5FF" d="M14.5,9.5L14.5,6.5L11.5,6.5" transform="translate(2, 2)" stroke="currentColor" strokeWidth="0.5" opacity="0.7" />
+                        <svg className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-cyber-yellow relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       </div>
                     )
@@ -214,16 +212,16 @@ export default function Home() {
                 ].map((rule, index) => (
                   <motion.div 
                     key={index}
-                    className="flex items-start p-6 bg-space-dark border border-glass-stroke rounded-xl backdrop-blur-md hover:border-neon-cyan/30 transition-colors duration-300"
+                    className="flex flex-col sm:flex-row items-center sm:items-start p-4 sm:p-6 bg-space-dark border border-glass-stroke rounded-xl backdrop-blur-md hover:border-neon-cyan/30 transition-colors duration-300"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 + (index * 0.1) }}
                   >
-                    <div className="mr-4 p-4 bg-glass-gray rounded-lg border border-glass-stroke relative overflow-hidden shadow-[0_0_15px_rgba(0,245,255,0.15)]">
+                    <div className="mb-4 sm:mb-0 sm:mr-4 p-3 sm:p-4 bg-glass-gray rounded-lg border border-glass-stroke relative overflow-hidden shadow-[0_0_15px_rgba(0,245,255,0.15)]">
                       <div className="absolute inset-0 bg-grid-lines opacity-30"></div>
                       {rule.icon}
                     </div>
-                    <div>
+                    <div className="text-center sm:text-left">
                       <h3 className="text-xl font-bold text-white mb-2">{rule.title}</h3>
                       <p className="text-text-secondary">{rule.description}</p>
                     </div>

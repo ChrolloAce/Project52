@@ -21,13 +21,11 @@ const projects: ProjectItem[] = [
   // Project 1 - PolarStock
   {
     id: 1,
-    name: "PolarStock",
-    status: 'active',
+    name: "Project 1",
+    status: 'locked',
     week: 1,
-    description: "Optimize, compress, and edit premium stock images in seconds. Launch projects faster with pixel-perfect visuals.",
-    tags: ['#images', '#optimization', '#week1'],
-    image: '/proj1.png',
-    link: 'https://polarstock.co'
+    description: "This startup will be launched in week 1",
+    tags: ['#startup', '#week1'],
   },
   // Generate the remaining locked projects
   ...Array.from({ length: 51 }, (_, i) => ({
@@ -200,7 +198,7 @@ const ProjectSlider = () => {
               layoutId={`project-${project.id}`}
               className={`flex-shrink-0 relative ${
                 isMobile ? 'w-[85%]' : project.status === 'active' ? 'w-[50%]' : 'w-[35%]'
-              } backdrop-blur-md border rounded-xl overflow-hidden ${
+              } h-[600px] backdrop-blur-md border rounded-xl overflow-hidden ${
                 activeIndex === index ? 'border-neon-cyan shadow-[0_0_30px_rgba(0,245,255,0.3)]' : 'border-glass-stroke'
               }`}
               animate={{
