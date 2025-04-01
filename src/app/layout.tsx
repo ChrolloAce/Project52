@@ -6,6 +6,7 @@ import MouseFollower from '@/components/MouseFollower'
 import FloatingParticles from '@/components/FloatingParticles'
 import RotatingElement from '@/components/RotatingElement'
 import { cn } from '@/lib/utils'
+import { Analytics } from '@vercel/analytics/react'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space' })
@@ -57,6 +58,7 @@ export default function RootLayout({
         <div className="relative pt-24 md:pt-28">
           {children}
         </div>
+        <Analytics />
       </body>
     </html>
   )
