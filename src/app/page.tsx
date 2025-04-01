@@ -201,25 +201,14 @@ export default function Home() {
                           Submitting...
                         `
                         
-                        // Add a timestamp and random salt for security
-                        const timestamp = new Date().toISOString()
-                        const salt = Math.random().toString(36).substring(7)
-                        
-                        // Send email to Make.com webhook with additional security measures
-                        const response = await fetch(process.env.NEXT_PUBLIC_MAKE_WEBHOOK_URL!, {
+                        // Send to our API route
+                        const response = await fetch('/api/subscribe', {
                           method: 'POST',
                           headers: {
                             'Content-Type': 'application/json',
-                            'X-Request-Timestamp': timestamp,
-                            'X-Request-Salt': salt,
                           },
                           body: JSON.stringify({
                             email: emailInput.value,
-                            timestamp,
-                            salt,
-                            source: 'project52_website',
-                            userAgent: navigator.userAgent,
-                            referrer: document.referrer,
                           }),
                         })
                         
