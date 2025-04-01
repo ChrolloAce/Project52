@@ -161,6 +161,117 @@ export default function Home() {
               </div>
             </motion.div>
             
+            {/* Email Subscription Section */}
+            <motion.div
+              className="w-full max-w-2xl mx-auto mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              <div className="relative bg-space-dark/60 rounded-xl backdrop-blur-md border border-glass-stroke p-8 overflow-hidden">
+                {/* Decorative elements */}
+                <div className="absolute -top-20 -right-20 w-40 h-40 bg-neon-cyan/10 rounded-full blur-3xl"></div>
+                <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-neon-purple/10 rounded-full blur-3xl"></div>
+                <div className="absolute inset-0 bg-grid-lines opacity-10"></div>
+                
+                <div className="relative z-10">
+                  <div className="text-center mb-6">
+                    <h3 className="text-2xl font-bold text-white mb-2">Stay Updated</h3>
+                    <p className="text-text-secondary">Get notified about new startups, progress updates, and exclusive insights</p>
+                  </div>
+                  
+                  <form 
+                    className="flex flex-col sm:flex-row gap-4"
+                    onSubmit={async (e) => {
+                      e.preventDefault()
+                      const form = e.target as HTMLFormElement
+                      const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement
+                      const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement
+                      
+                      if (!emailInput.value) return
+                      
+                      try {
+                        // Disable the submit button and show loading state
+                        submitButton.disabled = true
+                        submitButton.innerHTML = `
+                          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Submitting...
+                        `
+                        
+                        // Add a timestamp and random salt for security
+                        const timestamp = new Date().toISOString()
+                        const salt = Math.random().toString(36).substring(7)
+                        
+                        // Send email to Make.com webhook with additional security measures
+                        const response = await fetch(process.env.NEXT_PUBLIC_MAKE_WEBHOOK_URL!, {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'X-Request-Timestamp': timestamp,
+                            'X-Request-Salt': salt,
+                          },
+                          body: JSON.stringify({
+                            email: emailInput.value,
+                            timestamp,
+                            salt,
+                            source: 'project52_website',
+                            userAgent: navigator.userAgent,
+                            referrer: document.referrer,
+                          }),
+                        })
+                        
+                        if (!response.ok) {
+                          throw new Error(`HTTP error! status: ${response.status}`)
+                        }
+                        
+                        // Redirect to thank you page after successful submission
+                        window.location.href = '/thank-you'
+                      } catch (error) {
+                        console.error('Error submitting email:', error)
+                        // Show error message to user
+                        const errorDiv = document.createElement('div')
+                        errorDiv.className = 'text-red-500 text-sm mt-2'
+                        errorDiv.textContent = 'There was an error submitting your email. Please try again.'
+                        form.appendChild(errorDiv)
+                        
+                        // Reset button state
+                        submitButton.disabled = false
+                        submitButton.textContent = 'Subscribe'
+                        
+                        // Remove error message after 5 seconds
+                        setTimeout(() => {
+                          errorDiv.remove()
+                        }, 5000)
+                      }
+                    }}
+                  >
+                    <div className="flex-1 relative">
+                      <input
+                        type="email"
+                        placeholder="Enter your email"
+                        required
+                        className="w-full px-6 py-4 bg-space-dark/80 border border-glass-stroke rounded-xl text-white placeholder-text-secondary focus:outline-none focus:border-neon-cyan focus:ring-2 focus:ring-neon-cyan/20 transition-all duration-300"
+                      />
+                      <div className="absolute inset-0 bg-grid-lines opacity-5 rounded-xl pointer-events-none"></div>
+                    </div>
+                    <button
+                      type="submit"
+                      className="px-8 py-4 bg-gradient-to-r from-neon-cyan to-neon-blue text-white font-medium rounded-xl hover:shadow-[0_0_20px_rgba(0,245,255,0.4)] transition-all duration-300 hover:scale-105 whitespace-nowrap"
+                    >
+                      Subscribe
+                    </button>
+                  </form>
+                  
+                  <p className="text-xs text-text-secondary text-center mt-4">
+                    No spam, ever. Unsubscribe at any time.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+            
             <motion.p
               className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto mb-10"
               initial={{ opacity: 0 }}
