@@ -212,8 +212,10 @@ export default function Home() {
                           }),
                         })
                         
+                        const data = await response.json()
+                        
                         if (!response.ok) {
-                          throw new Error(`HTTP error! status: ${response.status}`)
+                          throw new Error(data.error || 'Failed to subscribe')
                         }
                         
                         // Redirect to thank you page after successful submission
@@ -223,7 +225,7 @@ export default function Home() {
                         // Show error message to user
                         const errorDiv = document.createElement('div')
                         errorDiv.className = 'text-red-500 text-sm mt-2'
-                        errorDiv.textContent = 'There was an error submitting your email. Please try again.'
+                        errorDiv.textContent = error instanceof Error ? error.message : 'There was an error submitting your email. Please try again.'
                         form.appendChild(errorDiv)
                         
                         // Reset button state
