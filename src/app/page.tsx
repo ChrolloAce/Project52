@@ -184,58 +184,27 @@ export default function Home() {
                     className="flex flex-col sm:flex-row gap-4"
                     onSubmit={async (e) => {
                       e.preventDefault()
-                      const form = e.target as HTMLFormElement
-                      const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement
-                      const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement
-                      
-                      if (!emailInput.value) return
-                      
-                      try {
-                        // Disable the submit button and show loading state
-                        submitButton.disabled = true
-                        submitButton.innerHTML = `
-                          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          Submitting...
-                        `
-                        
-                        // Send to our API route
-                        const response = await fetch('/api/subscribe', {
-                          method: 'POST',
-                          headers: {
-                            'Content-Type': 'application/json',
-                          },
-                          body: JSON.stringify({
-                            email: emailInput.value,
-                          }),
-                        })
-                        
-                        const data = await response.json()
-                        
-                        if (!response.ok) {
-                          throw new Error(data.error || 'Failed to subscribe')
+                      const email = (e.target as HTMLFormElement).querySelector('input[type="email"]') as HTMLInputElement
+                      if (email.value) {
+                        try {
+                          // Send email to Make.com webhook
+                          await fetch('https://hook.us2.make.com/pn6si18fkdzmh7sha1juc03ha0o4bjs2', {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                              email: email.value,
+                              timestamp: new Date().toISOString(),
+                            }),
+                          })
+                          
+                          // Redirect to thank you page after successful submission
+                          window.location.href = '/thank-you'
+                        } catch (error) {
+                          console.error('Error submitting email:', error)
+                          // You might want to show an error message to the user here
                         }
-                        
-                        // Redirect to thank you page after successful submission
-                        window.location.href = '/thank-you'
-                      } catch (error) {
-                        console.error('Error submitting email:', error)
-                        // Show error message to user
-                        const errorDiv = document.createElement('div')
-                        errorDiv.className = 'text-red-500 text-sm mt-2'
-                        errorDiv.textContent = error instanceof Error ? error.message : 'There was an error submitting your email. Please try again.'
-                        form.appendChild(errorDiv)
-                        
-                        // Reset button state
-                        submitButton.disabled = false
-                        submitButton.textContent = 'Subscribe'
-                        
-                        // Remove error message after 5 seconds
-                        setTimeout(() => {
-                          errorDiv.remove()
-                        }, 5000)
                       }
                     }}
                   >

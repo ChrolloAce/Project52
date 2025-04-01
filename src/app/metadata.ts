@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Project 52',
-  description: '52 Startups in 52 Weeks',
+  title: 'Project52 | Building 52 Startups in 52 Weeks Challenge',
+  description: 'Follow the revolutionary challenge of launching 52 startups in 52 weeks, documenting every step from ideation to launch. See how far innovation can go in one year.',
   applicationName: 'Project52',
   authors: [{ name: 'Project52', url: 'https://github.com/ChrolloAce/Project52' }],
   keywords: ['Project52', 'startups', '52 weeks', 'challenge', 'innovation', 'entrepreneurship', 'building in public'],
