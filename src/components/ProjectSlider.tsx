@@ -18,23 +18,45 @@ type ProjectItem = {
 
 // Generate 52 locked project slots with Project 1 unlocked as PolarStock
 const projects: ProjectItem[] = [
-  // Project 1 - PolarStock
+  // Project 1 - Facecard
   {
     id: 1,
-    name: "Project 1",
-    status: 'locked',
+    name: "Facecard",
+    status: 'active',
     week: 1,
-    description: "This startup will be launched in week 1",
-    tags: ['#startup', '#week1'],
+    description: "Science-based facial rating app launched in week 1",
+    tags: ['#startup', '#week1', '#ai'],
+    image: '/facecard.jpeg',
+    link: 'https://apps.apple.com/us/app/facecard-the-looksmaxing-app/id6745060144',
+  },
+  // Project 2 - Lumora
+  {
+    id: 2,
+    name: "Lumora",
+    status: 'active',
+    week: 2,
+    description: "AI-powered YouTube video summarizer launched in week 2",
+    tags: ['#startup', '#week2', '#ai', '#youtube'],
+    image: '/lumora.jpeg',
+    link: 'https://apps.apple.com/us/app/lumora-ai-learn-anything-fast/id6745745965',
+  },
+  // Project 3 - Current Project
+  {
+    id: 3,
+    name: "Project 3",
+    status: 'active',
+    week: 3,
+    description: "This startup is being launched in week 3",
+    tags: ['#startup', '#week3'],
   },
   // Generate the remaining locked projects
-  ...Array.from({ length: 51 }, (_, i) => ({
-    id: i + 2,
-    name: `Project ${i + 2}`,
-    status: 'locked' as const,
-    week: i + 2,
-    description: `This startup will be launched in week ${i + 2}`,
-    tags: ['#startup', `#week${i + 2}`],
+  ...Array.from({ length: 49 }, (_, i) => ({
+    id: i + 4,
+    name: `Project ${i + 4}`,
+          status: 'locked' as const,
+      week: i + 4,
+      description: `This startup will be launched in week ${i + 4}`,
+      tags: ['#startup', `#week${i + 4}`],
   }))
 ]
 
@@ -197,8 +219,8 @@ const ProjectSlider = () => {
               key={project.id}
               layoutId={`project-${project.id}`}
               className={`flex-shrink-0 relative ${
-                isMobile ? 'w-[85%]' : project.status === 'active' ? 'w-[50%]' : 'w-[35%]'
-              } h-[600px] backdrop-blur-md border rounded-xl overflow-hidden ${
+                isMobile ? 'w-[85%]' : project.status === 'active' ? 'w-[35%]' : 'w-[30%]'
+              } min-h-[750px] h-auto backdrop-blur-md border rounded-xl overflow-hidden ${
                 activeIndex === index ? 'border-neon-cyan shadow-[0_0_30px_rgba(0,245,255,0.3)]' : 'border-glass-stroke'
               }`}
               animate={{
@@ -223,16 +245,19 @@ const ProjectSlider = () => {
                 <span className="text-neon-cyan font-medium text-sm">{project.id}</span>
               </div>
               
-              <div className={`aspect-[${project.status === 'active' ? '16/9' : '3/2'}] relative overflow-hidden rounded-t-xl`}>
+              <div className="h-[650px] relative overflow-hidden rounded-t-xl">
                 {project.status === 'active' ? (
                   // For active project (PolarStock), just show the image with no overlay
-                  <div className="relative w-full h-full">
-                    <img 
-                      src={project.image} 
-                      alt={project.name}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-space-dark/70 via-transparent to-transparent"></div>
+                  <div className="relative w-full h-full bg-space-dark/40">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <img 
+                        src={project.image} 
+                        alt={project.name}
+                        className="h-auto w-[90%] max-h-[640px] object-contain"
+                        style={{ maxWidth: '100%' }}
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-space-dark/70 via-transparent to-transparent pointer-events-none"></div>
                   </div>
                 ) : (
                   // For locked projects, show the gradient and lock icon
@@ -308,10 +333,10 @@ const ProjectSlider = () => {
                 )}
               </div>
               
-              <div className="p-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="font-bold text-xl text-white">{project.name}</h3>
-                  <span className={`text-xs px-3 py-1 rounded-full backdrop-blur-sm ${
+              <div className="p-3">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="font-bold text-lg text-white">{project.name}</h3>
+                  <span className={`text-xs px-2 py-0.5 rounded-full backdrop-blur-sm ${
                     project.status === 'active' 
                       ? 'bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/40 shadow-[0_0_8px_rgba(0,245,255,0.15)]' 
                       : 'bg-space-dark/80 text-neon-cyan border border-neon-cyan/20'
@@ -344,13 +369,13 @@ const ProjectSlider = () => {
                   </div>
                 )}
                 
-                <p className="text-text-secondary mb-5">{project.description}</p>
+                <p className="text-text-secondary mb-2 text-xs">{project.description}</p>
                 
-                <div className="flex flex-wrap gap-2 mb-5">
+                <div className="flex flex-wrap gap-1 mb-2">
                   {project.tags.map((tag, tagIndex) => (
                     <div 
                       key={tagIndex} 
-                      className="px-3 py-1 rounded-full text-xs backdrop-blur-sm bg-space-dark/60 text-white border border-glass-stroke hover:border-neon-cyan/30 transition-all duration-300 hover:text-neon-cyan"
+                      className="px-2 py-0.5 rounded-full text-xs backdrop-blur-sm bg-space-dark/60 text-white border border-glass-stroke hover:border-neon-cyan/30 transition-all duration-300 hover:text-neon-cyan"
                     >
                       <span>{tag.replace('#', '')}</span>
                     </div>
@@ -362,7 +387,7 @@ const ProjectSlider = () => {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center px-4 py-2 rounded-lg bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/30 hover:bg-neon-cyan/20 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,245,255,0.2)]"
+                    className="inline-flex items-center px-3 py-1 text-sm rounded-lg bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/30 hover:bg-neon-cyan/20 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,245,255,0.2)]"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <span>Visit Project</span>

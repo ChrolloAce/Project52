@@ -6,42 +6,10 @@ import { theme } from '@/styles/theme'
 import Link from 'next/link'
 
 const Header = () => {
-  const [timeRemaining, setTimeRemaining] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  })
-  
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
-    // Set end date to the end of the year
-    const currentYear = new Date().getFullYear()
-    const endDate = new Date(currentYear, 11, 31, 23, 59, 59)
-
-    const calculateTimeRemaining = () => {
-      const now = new Date()
-      const difference = endDate.getTime() - now.getTime()
-      
-      if (difference < 0) {
-        // Timer expired
-        setTimeRemaining({ days: 0, hours: 0, minutes: 0, seconds: 0 })
-        return
-      }
-      
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24))
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000)
-      
-      setTimeRemaining({ days, hours, minutes, seconds })
-    }
-    
-    calculateTimeRemaining()
-    const timer = setInterval(calculateTimeRemaining, 1000)
-    
     // Handle scroll events
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
@@ -50,7 +18,6 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll)
     
     return () => {
-      clearInterval(timer)
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
