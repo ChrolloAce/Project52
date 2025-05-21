@@ -14,6 +14,7 @@ type ProjectItem = {
   tags: string[];
   image?: string;
   link?: string;
+  reviewStatus?: string;
 }
 
 // Generate 52 locked project slots with Project 1 unlocked as PolarStock
@@ -40,14 +41,15 @@ const projects: ProjectItem[] = [
     image: '/lumora.jpeg',
     link: 'https://apps.apple.com/us/app/lumora-ai-learn-anything-fast/id6745745965',
   },
-  // Project 3 - Current Project
+  // Project 3 - Perfect Spot
   {
     id: 3,
-    name: "Project 3",
+    name: "Perfect Spot",
     status: 'active',
     week: 3,
-    description: "This startup is being launched in week 3",
-    tags: ['#startup', '#week3'],
+    description: "App that helps you find and plan fun dates, hangouts, and trips",
+    tags: ['#startup', '#week3', '#travel', '#dating'],
+    reviewStatus: 'In Review by Apple'
   },
   // Generate the remaining locked projects
   ...Array.from({ length: 49 }, (_, i) => ({
@@ -249,14 +251,26 @@ const ProjectSlider = () => {
                 {project.status === 'active' ? (
                   // For active project (PolarStock), just show the image with no overlay
                   <div className="relative w-full h-full bg-space-dark/40">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <img 
-                        src={project.image} 
-                        alt={project.name}
-                        className="h-auto w-[90%] max-h-[640px] object-contain"
-                        style={{ maxWidth: '100%' }}
-                      />
-                    </div>
+                    {project.image ? (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <img 
+                          src={project.image} 
+                          alt={project.name}
+                          className="h-auto w-[90%] max-h-[640px] object-contain"
+                          style={{ maxWidth: '100%' }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center px-6 py-4 text-center">
+                        <div className="w-24 h-24 mb-6 relative animate-pulse">
+                          <svg className="w-full h-full text-neon-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-white text-2xl font-bold mb-4">{project.reviewStatus || "Coming Soon"}</h3>
+                        <p className="text-text-secondary">This project is currently in development and will be available soon.</p>
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-space-dark/70 via-transparent to-transparent pointer-events-none"></div>
                   </div>
                 ) : (
@@ -341,32 +355,12 @@ const ProjectSlider = () => {
                       ? 'bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/40 shadow-[0_0_8px_rgba(0,245,255,0.15)]' 
                       : 'bg-space-dark/80 text-neon-cyan border border-neon-cyan/20'
                   }`}>
-                    {project.status === 'active' ? 'Active' : 'Locked'}
+                    {project.reviewStatus || (project.status === 'active' ? 'Active' : 'Locked')}
                   </span>
                 </div>
                 
                 {project.status === 'locked' && (
-                  <div className="absolute inset-0 flex items-center justify-center z-20 bg-space-dark/20 pointer-events-none">
-                    <div className="w-24 h-24 relative">
-                      <div className="absolute inset-0 rounded-full bg-neon-cyan/20 blur-md animate-pulse"></div>
-                      <div className="absolute inset-0 rounded-full bg-space-dark border-2 border-neon-cyan/50 flex items-center justify-center shadow-[0_0_15px_rgba(0,245,255,0.4)]">
-                        <svg className="w-12 h-12 text-neon-cyan" viewBox="0 0 24 24" fill="none">
-                          <path 
-                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" 
-                            stroke="currentColor" 
-                            strokeWidth={2} 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round"
-                          />
-                          <path 
-                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                            fill="rgba(0,245,255,0.3)"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div className="absolute top-4 right-4 text-neon-cyan font-bold text-lg border border-neon-cyan/30 bg-space-dark/80 rounded-full px-3 py-1">LOCKED</div>
-                  </div>
+                  <div className="absolute top-4 right-4 text-neon-cyan font-bold text-lg border border-neon-cyan/30 bg-space-dark/80 rounded-full px-3 py-1 z-20">LOCKED</div>
                 )}
                 
                 <p className="text-text-secondary mb-2 text-xs">{project.description}</p>
